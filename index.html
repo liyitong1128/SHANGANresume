@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="上传旧简历自动整理，或逐项填写生成格式统一的专业简历，支持 PDF 与 Word 导出。">
+  <title>上岸简历 · 在线简历制作</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none">
+          <!-- 沙滩岸边：自左下向右上倾斜的岸线，下方为暖粉沙色 -->
+          <path d="M3 31c6 1 10 5 18 5s14-5 21-4v10H3z" fill="#F4D9DC"/>
+          <path d="M3 31c6 1 10 5 18 5s14-5 21-4" stroke="#DBACB8" stroke-width="1.4" stroke-linecap="round"/>
+          <!-- 海浪：从右向左涌来、浪头在岸边卷起 -->
+          <path d="M42 25c-5 6-12 6-17 3-4-2.5-5-7-10-7-2.6 0-4.6 1.1-6 2.8" stroke="#6E93CC" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M42 17c-7-3-14-1-19 4-2.6 2.6-4.2 4.2-7.2 4.2-2 0-3.6-.8-4.6-2" stroke="#9DB8E4" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- 浪花泡沫 -->
+          <circle cx="8" cy="27" r="1.6" fill="#C6D8F2"/>
+          <circle cx="13" cy="29.5" r="1.1" fill="#C6D8F2"/>
+        </svg>
+      </span>
+      <span class="brand-text">上岸简历<small>RESUME STUDIO</small></span>
+    </div>
+    <div class="top-actions">
+      <span class="save-hint" id="saveHint">已自动保存</span>
+      <button class="btn btn-ghost" id="btnTranslate" type="button">中译英</button>
+      <button class="btn btn-ghost" id="btnSample" type="button">填入示例</button>
+      <button class="btn btn-ghost" id="btnReset" type="button">清空内容</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">别烧心，祝你成功上岸</span>
+      <h1>把你的经历，整理成一份好简历</h1>
+      <p>上传旧简历自动识别整理，或按提示逐项填写。版式、字体、间距自动统一，一键导出 PDF / Word。</p>
+    </div>
+    <div class="mode-cards">
+      <button class="mode-card" id="cardUpload" type="button">
+        <span class="mode-icon mode-icon-blue" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
+        </span>
+        <span class="mode-text"><strong>上传已有简历</strong><small>自动识别内容并重新排版</small></span>
+        <span class="mode-arrow">→</span>
+      </button>
+      <button class="mode-card is-active" id="cardManual" type="button">
+        <span class="mode-icon mode-icon-green" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+        <span class="mode-text"><strong>从零开始填写</strong><small>按 9 个部分逐项完成</small></span>
+        <span class="mode-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<main class="workspace preview-collapsed" id="workspace">
+  <aside class="sidebar">
+    <div class="progress-box">
+      <div class="progress-ring" id="progressRing"><span id="progressNum">0%</span></div>
+      <div class="progress-label"><strong>填写进度</strong><small id="progressText">完成信息后可导出</small></div>
+    </div>
+    <nav class="step-nav" id="stepNav" aria-label="简历填写步骤">
+      <button class="step-item is-active" data-step="basic" type="button"><i>1</i><span>基本信息</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="photo" type="button"><i>2</i><span>证件照</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="education" type="button"><i>3</i><span>教育背景</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="work" type="button"><i>4</i><span>工作经历</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="project" type="button"><i>5</i><span>项目经历</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="skills" type="button"><i>6</i><span>技能特长</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="summary" type="button"><i>7</i><span>自我评价</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="check" type="button"><i>8</i><span>内容检查</span><em class="step-check">✓</em></button>
+      <button class="step-item" data-step="template" type="button"><i>9</i><span>模板选择</span><em class="step-check">✓</em></button>
+    </nav>
+    <div class="sidebar-note">
+      <span class="note-dot"></span>
+      所有内容仅在本地浏览器处理，不会上传到服务器。
+    </div>
+  </aside>
+
+  <section class="form-panel">
+    <div class="panel-head">
+      <div>
+        <h2 id="stepTitle">基本信息</h2>
+        <p id="stepDesc">填写联系方式与证件照，作为简历的开头。</p>
+      </div>
+      <div class="panel-head-actions">
+        <button class="btn btn-mini preview-open-btn" id="previewOpenBtn" type="button" hidden title="展开实时预览">‹ 展开预览</button>
+        <span class="step-count" id="stepCount">01 / 07</span>
+      </div>
+    </div>
+
+    <!-- 1 基本信息 -->
+    <div class="step-page" data-page="basic">
+      <div class="form-grid">
+        <div class="field">
+          <label for="fName">姓名 <b>*</b></label>
+          <input id="fName" type="text" placeholder="例如：李明" maxlength="30">
+        </div>
+        <div class="field">
+          <label for="fPhone">联系电话 <b>*</b></label>
+          <input id="fPhone" type="text" placeholder="例如：138 0000 0000" maxlength="30">
+        </div>
+        <div class="field field-full">
+          <label for="fEmail">邮箱 <b>*</b></label>
+          <input id="fEmail" type="email" placeholder="例如：liming@example.com" maxlength="60">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 证件照 -->
+    <div class="step-page" data-page="photo" hidden>
+      <div class="photo-block">
+        <div class="field-label">证件照 <span class="optional">选填</span></div>
+        <div class="photo-row">
+          <div class="photo-drop" id="photoDrop">
+            <input type="file" id="fPhoto" accept="image/*" hidden>
+            <div class="photo-placeholder" id="photoPlaceholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+              <span>点击或拖拽上传证件照</span>
+              <small>支持 JPG / PNG，建议白底正装照</small>
+            </div>
+            <img id="photoPreview" alt="证件照预览" hidden>
+          </div>
+          <div class="photo-tips">
+            <p><strong>排版说明</strong></p>
+            <p>照片会按统一比例裁剪，位置由所选模板决定，不影响文字排版。</p>
+            <button class="btn btn-mini" id="photoRemove" type="button" hidden>移除照片</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 教育背景 -->
+    <div class="step-page" data-page="education" hidden>
+      <div class="section-intro">
+        <span>可添加多条教育经历，按时间倒序排列展示。</span>
+        <button class="btn btn-add" data-add="education" type="button">+ 添加教育经历</button>
+      </div>
+      <div id="eduList" class="entry-list"></div>
+    </div>
+
+    <!-- 3 工作经历 -->
+    <div class="step-page" data-page="work" hidden>
+      <div class="section-intro">
+        <span>填写公司、职位与工作内容，可添加多段经历。</span>
+        <button class="btn btn-add" data-add="work" type="button">+ 添加工作经历</button>
+      </div>
+      <div id="workList" class="entry-list"></div>
+    </div>
+
+    <!-- 4 项目经历 -->
+    <div class="step-page" data-page="project" hidden>
+      <div class="section-intro">
+        <span>突出你在项目中的角色和具体负责内容。</span>
+        <button class="btn btn-add" data-add="project" type="button">+ 添加项目经历</button>
+      </div>
+      <div id="projList" class="entry-list"></div>
+    </div>
+
+    <!-- 5 技能特长 -->
+    <div class="step-page" data-page="skills" hidden>
+      <div class="form-grid form-grid-single">
+        <div class="field">
+          <label for="fLanguages">语言能力</label>
+          <textarea id="fLanguages" rows="5" placeholder="例如：&#10;英语 CET-6，可熟练进行商务沟通与文档阅读&#10;普通话 二级甲等"></textarea>
+          <small class="field-hint">一行一项，简历中会自动分条展示</small>
+        </div>
+        <div class="field">
+          <label for="fOffice">办公技能</label>
+          <textarea id="fOffice" rows="5" placeholder="例如：&#10;Excel：数据透视表、VLOOKUP、Power Query&#10;PPT：独立完成商业演示文稿&#10;熟悉 Photoshop / Figma 基础操作"></textarea>
+          <small class="field-hint">一行一项，简历中会自动分条展示</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 自我评价 -->
+    <div class="step-page" data-page="summary" hidden>
+      <div class="form-grid form-grid-single">
+        <div class="field">
+          <label for="fSummary">自我评价</label>
+          <textarea id="fSummary" rows="12" placeholder="用 3–5 句话概括你的优势，例如专业背景、核心能力、性格特点与职业方向。&#10;&#10;建议结合岗位要求，突出与职位最相关的经历和成果。"></textarea>
+          <small class="field-hint">建议 100–200 字，分段书写会自动保留</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 内容检查 -->
+    <div class="step-page" data-page="check" hidden>
+      <div class="export-check" id="exportCheck"></div>
+      <div class="export-note">
+        <strong>小提示</strong>
+        <p>确认内容无误后进入第 9 步选择模板与页数。需要英文简历时，点击顶部「中译英」整份翻译，再点「恢复中文」切回。</p>
+      </div>
+    </div>
+
+    <!-- 9 模板选择 -->
+    <div class="step-page" data-page="template" hidden>
+      <div class="tpl-section-head">
+        <h3>选择简历模板</h3>
+        <p>简约黑 · 蓝 · 灰风格，点击即可应用，PDF / Word 会跟随所选模板。</p>
+      </div>
+      <div class="template-grid" id="templateGrid"></div>
+
+      <div class="page-mode-block">
+        <div class="field-label">简历页数 <span class="optional">导出时生效</span></div>
+        <div class="page-mode-options">
+          <button class="page-mode-card is-active" data-page-mode="one" type="button">
+            <span class="pm-icon pm-one">1</span>
+            <span class="pm-text"><strong>一页纸简历</strong><small>紧凑排版，适合内容不多的情况</small></span>
+            <span class="pm-check">✓</span>
+          </button>
+          <button class="page-mode-card" data-page-mode="multi" type="button">
+            <span class="pm-icon pm-multi">≡</span>
+            <span class="pm-text"><strong>不限页数</strong><small>内容多时自动分页，完整呈现</small></span>
+            <span class="pm-check">✓</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="export-cards">
+        <button class="export-card export-pdf" id="btnPdf" type="button">
+          <span class="export-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 17h5"/></svg>
+          </span>
+          <strong>导出 PDF</strong>
+          <small>版式固定，适合投递和分享</small>
+        </button>
+        <button class="export-card export-word" id="btnWord" type="button">
+          <span class="export-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l1.4 5 1.6-3.5 1.6 3.5L15 13"/></svg>
+          </span>
+          <strong>导出 Word</strong>
+          <small>可继续编辑，方便二次修改</small>
+        </button>
+      </div>
+      <div class="export-note">
+        <strong>小提示</strong>
+        <p>中文微软雅黑、英文 Arial。PDF 在弹出窗口中选择「另存为 PDF」；Word 文件会直接下载。若一页纸模式下内容过多，会自动适度压缩字号。</p>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button class="btn btn-ghost" id="prevBtn" type="button">上一步</button>
+      <span class="footer-dots" id="footerDots"></span>
+      <button class="btn btn-primary" id="nextBtn" type="button">下一步 →</button>
+    </div>
+  </section>
+
+  <aside class="preview-panel">
+    <div class="preview-head">
+      <div><strong>实时预览</strong><small>与导出效果一致</small></div>
+      <div class="preview-head-actions">
+        <span class="preview-badge">A4 版式</span>
+        <button class="preview-collapse" id="previewCollapseBtn" type="button" title="收回预览">收起 ›</button>
+      </div>
+    </div>
+    <div class="paper-wrap">
+      <div class="paper" id="resumePaper" data-template="classic">
+        <header class="r-header">
+          <div class="r-head-main">
+            <h1 class="r-name" id="pvName">你的姓名</h1>
+            <div class="r-contact">
+              <span id="pvPhoneLabel">联系电话</span><b id="pvPhone"></b>
+              <span id="pvEmailLabel">邮箱</span><b id="pvEmail"></b>
+            </div>
+          </div>
+          <div class="r-photo" id="pvPhoto" hidden><img id="pvPhotoImg" alt="证件照"></div>
+        </header>
+        <div class="r-body">
+          <section class="r-section"><h2 class="r-label" id="pvEduLabel">教育背景</h2><div class="r-content" id="pvEdu"></div></section>
+          <section class="r-section"><h2 class="r-label" id="pvWorkLabel">工作经历</h2><div class="r-content" id="pvWork"></div></section>
+          <section class="r-section"><h2 class="r-label" id="pvProjLabel">项目经历</h2><div class="r-content" id="pvProject"></div></section>
+          <section class="r-section"><h2 class="r-label" id="pvSkillsLabel">技能特长</h2><div class="r-content" id="pvSkills"></div></section>
+          <section class="r-section"><h2 class="r-label" id="pvSummaryLabel">自我评价</h2><div class="r-content" id="pvSummary"></div></section>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- 上传解析弹窗 -->
+<div class="modal" id="uploadModal" hidden>
+  <div class="modal-mask" data-close-modal></div>
+  <div class="modal-body" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h3 id="modalTitle">上传简历，自动生成</h3>
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭">×</button>
+    </div>
+    <p class="modal-sub">支持 PDF、Word（.docx）、TXT 文件；也可以直接粘贴简历文字。</p>
+    <div class="modal-tabs">
+      <button class="modal-tab is-active" data-tab="file" type="button">上传文件</button>
+      <button class="modal-tab" data-tab="text" type="button">粘贴文本</button>
+    </div>
+    <div class="modal-tabpane" data-pane="file">
+      <div class="upload-drop" id="uploadDrop">
+        <input type="file" id="resumeFile" accept=".pdf,.docx,.txt,.md" hidden>
+        <span class="upload-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
+        </span>
+        <strong>点击选择文件，或拖拽到这里</strong>
+        <small id="fileName">PDF / DOCX / TXT，单个文件不超过 10 MB</small>
+      </div>
+    </div>
+    <div class="modal-tabpane" data-pane="text" hidden>
+      <textarea id="pasteText" rows="10" placeholder="把简历内容直接复制粘贴到这里……"></textarea>
+    </div>
+    <div class="modal-foot">
+      <span class="privacy-note">文件仅在本地解析，不会上传</span>
+      <button class="btn btn-primary" id="btnParse" type="button">开始解析</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
