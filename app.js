@@ -1450,9 +1450,16 @@
     $('#btnPdf').addEventListener('click', exportPDF);
     $('#btnWord').addEventListener('click', exportWord);
 
-    // 顶部模式卡
-    $('#cardUpload').addEventListener('click', () => openModal());
-    $('#cardManual').addEventListener('click', () => { toast('已切换为手动填写模式'); goStep('basic'); });
+    // 开始界面：进入填写页
+    $('#cardUpload').addEventListener('click', () => { enterEditor(); openModal(); });
+    $('#cardManual').addEventListener('click', () => { enterEditor(); goStep('basic'); });
+    // 填写页：返回开始界面
+    $('#btnBackHome').addEventListener('click', () => {
+      closeModal();
+      $('#appShell').hidden = true;
+      $('#startScreen').hidden = false;
+      window.scrollTo(0, 0);
+    });
 
     // 弹窗
     $$('[data-close-modal]').forEach((el) => el.addEventListener('click', closeModal));
@@ -1508,6 +1515,14 @@
         btn.textContent = '开始解析';
       }
     });
+  }
+
+  // 从开始界面进入填写页
+  function enterEditor() {
+    $('#startScreen').hidden = true;
+    $('#appShell').hidden = false;
+    window.scrollTo(0, 0);
+    renderPreview();
   }
 
   function openModal() {

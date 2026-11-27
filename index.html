@@ -9,8 +9,9 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
+<!-- ============ 开始界面（独立欢迎页） ============ -->
+<div class="start-screen" id="startScreen">
+  <div class="start-top">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 44 44" fill="none">
@@ -27,23 +28,14 @@
       </span>
       <span class="brand-text">上岸简历<small>RESUME STUDIO</small></span>
     </div>
-    <div class="top-actions">
-      <span class="save-hint" id="saveHint">已自动保存</span>
-      <button class="btn btn-ghost" id="btnTranslate" type="button">中译英</button>
-      <button class="btn btn-ghost" id="btnSample" type="button">填入示例</button>
-      <button class="btn btn-ghost" id="btnReset" type="button">清空内容</button>
-    </div>
+    <span class="start-privacy">100% 本地处理 · 隐私安全</span>
   </div>
-</header>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <span class="eyebrow">别烧心，祝你成功上岸</span>
-      <h1>把你的经历，整理成一份好简历</h1>
-      <p>上传旧简历自动识别整理，或按提示逐项填写。版式、字体、间距自动统一，一键导出 PDF / Word。</p>
-    </div>
-    <div class="mode-cards">
+  <div class="start-main">
+    <span class="eyebrow">别烧心，祝你成功上岸</span>
+    <h1>把你的经历，整理成一份好简历</h1>
+    <p>上传旧简历自动识别整理，或按提示逐项填写。版式、字体、间距自动统一，一键导出 PDF / Word。</p>
+    <div class="mode-cards start-cards">
       <button class="mode-card" id="cardUpload" type="button">
         <span class="mode-icon mode-icon-blue" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>
@@ -51,7 +43,7 @@
         <span class="mode-text"><strong>上传已有简历</strong><small>自动识别内容并重新排版</small></span>
         <span class="mode-arrow">→</span>
       </button>
-      <button class="mode-card is-active" id="cardManual" type="button">
+      <button class="mode-card" id="cardManual" type="button">
         <span class="mode-icon mode-icon-green" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
         </span>
@@ -60,7 +52,36 @@
       </button>
     </div>
   </div>
-</section>
+
+  <div class="start-foot">所有内容仅在本地浏览器处理，不会上传到服务器</div>
+</div>
+
+<!-- ============ 填写界面（进入后才显示） ============ -->
+<div class="app-shell" id="appShell" hidden>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44" fill="none">
+          <path d="M3 31c6 1 10 5 18 5s14-5 21-4v10H3z" fill="#F4D9DC"/>
+          <path d="M3 31c6 1 10 5 18 5s14-5 21-4" stroke="#DBACB8" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M42 25c-5 6-12 6-17 3-4-2.5-5-7-10-7-2.6 0-4.6 1.1-6 2.8" stroke="#6E93CC" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M42 17c-7-3-14-1-19 4-2.6 2.6-4.2 4.2-7.2 4.2-2 0-3.6-.8-4.6-2" stroke="#9DB8E4" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="8" cy="27" r="1.6" fill="#C6D8F2"/>
+          <circle cx="13" cy="29.5" r="1.1" fill="#C6D8F2"/>
+        </svg>
+      </span>
+      <span class="brand-text">上岸简历<small>RESUME STUDIO</small></span>
+    </div>
+    <div class="top-actions">
+      <button class="btn btn-ghost btn-back" id="btnBackHome" type="button">← 返回首页</button>
+      <span class="save-hint" id="saveHint">已自动保存</span>
+      <button class="btn btn-ghost" id="btnTranslate" type="button">中译英</button>
+      <button class="btn btn-ghost" id="btnSample" type="button">填入示例</button>
+      <button class="btn btn-ghost" id="btnReset" type="button">清空内容</button>
+    </div>
+  </div>
+</header>
 
 <main class="workspace preview-collapsed" id="workspace">
   <aside class="sidebar">
@@ -285,6 +306,7 @@
     </div>
   </aside>
 </main>
+</div><!-- /.app-shell -->
 
 <!-- 上传解析弹窗 -->
 <div class="modal" id="uploadModal" hidden>
